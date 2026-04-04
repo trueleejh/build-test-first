@@ -29,7 +29,12 @@ class LottoBall extends HTMLElement {
                 font-size: 24px;
                 font-weight: bold;
                 box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-                margin: 0 5px; /* Add some margin */
+                margin: 0 5px;
+                animation: popIn 0.3s ease-out;
+            }
+            @keyframes popIn {
+                0% { transform: scale(0); opacity: 0; }
+                100% { transform: scale(1); opacity: 1; }
             }
         `;
 
@@ -44,6 +49,7 @@ class LottoBall extends HTMLElement {
 
 customElements.define('lotto-ball', LottoBall);
 
+// Lotto Generation Logic
 document.getElementById('generate-btn').addEventListener('click', () => {
     const lottoNumbersContainer = document.getElementById('lotto-numbers');
     lottoNumbersContainer.innerHTML = '';
@@ -55,9 +61,33 @@ document.getElementById('generate-btn').addEventListener('click', () => {
 
     const sortedNumbers = Array.from(numbers).sort((a, b) => a - b);
 
-    sortedNumbers.forEach(number => {
-        const lottoBall = document.createElement('lotto-ball');
-        lottoBall.setAttribute('number', number);
-        lottoNumbersContainer.appendChild(lottoBall);
+    sortedNumbers.forEach((number, index) => {
+        setTimeout(() => {
+            const lottoBall = document.createElement('lotto-ball');
+            lottoBall.setAttribute('number', number);
+            lottoNumbersContainer.appendChild(lottoBall);
+        }, index * 100);
     });
+});
+
+// Theme Switching Logic
+const themeToggle = document.getElementById('theme-toggle');
+const currentTheme = localStorage.getItem('theme') || 'light';
+
+if (currentTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    themeToggle.textContent = 'Light Mode';
+}
+
+themeToggle.addEventListener('click', () => {
+    let theme = document.documentElement.getAttribute('data-theme');
+    if (theme === 'dark') {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('theme', 'light');
+        themeToggle.textContent = 'Dark Mode';
+    } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+        themeToggle.textContent = 'Light Mode';
+    }
 });
