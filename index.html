@@ -11,8 +11,14 @@
         <div class="theme-switch-wrapper">
             <button id="theme-toggle">Dark Mode</button>
         </div>
-        <h1>Lotto Number Generator</h1>
-        <div id="lotto-numbers" class="lotto-numbers"></div>
+        <h1 id="main-title">Lotto Number Generator</h1>
+        
+        <div class="mode-selection">
+            <button id="lotto-mode-btn" class="mode-btn active">Lotto 6/45</button>
+            <button id="pension-mode-btn" class="mode-btn">Pension 720+</button>
+        </div>
+
+        <div id="numbers-container" class="numbers-display"></div>
         <button id="generate-btn">Generate Numbers</button>
     </div>
     <script src="main.js"></script>
