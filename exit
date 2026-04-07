@@ -1,0 +1,65 @@
+[1mdiff --git a/main.js b/main.js[m
+[1mindex b1bcce0..c857f7a 100644[m
+[1m--- a/main.js[m
+[1m+++ b/main.js[m
+[36m@@ -67,18 +67,35 @@[m [mdocument.getElementById('generate-btn').addEventListener('click', () => {[m
+     const lottoNumbersContainer = document.getElementById('lotto-numbers');[m
+     lottoNumbersContainer.innerHTML = '';[m
+     const numbers = new Set();[m
+[31m-    while(numbers.size < 6) {[m
+[32m+[m[32m    while(numbers.size < 7) {[m
+         const randomNumber = Math.floor(Math.random() * 45) + 1;[m
+         numbers.add(randomNumber);[m
+     }[m
+ [m
+[31m-    const sortedNumbers = Array.from(numbers).sort((a, b) => a - b);[m
+[32m+[m[32m    const numbersArray = Array.from(numbers);[m
+[32m+[m[32m    const bonusNumber = numbersArray.pop(); // Take the last one as bonus[m
+[32m+[m[32m    const sortedNumbers = numbersArray.sort((a, b) => a - b);[m
+ [m
+[32m+[m[32m    // Render regular numbers[m
+     sortedNumbers.forEach((number, index) => {[m
+         setTimeout(() => {[m
+             const lottoBall = document.createElement('lotto-ball');[m
+             lottoBall.setAttribute('number', number);[m
+             lottoNumbersContainer.appendChild(lottoBall);[m
+[32m+[m[41m            [m
+[32m+[m[32m            // If it's the last regular number, add the bonus ball after a delay[m
+[32m+[m[32m            if (index === sortedNumbers.length - 1) {[m
+[32m+[m[32m                setTimeout(() => {[m
+[32m+[m[32m                    const separator = document.createElement('span');[m
+[32m+[m[32m                    separator.className = 'bonus-separator';[m
+[32m+[m[32m                    separator.textContent = '+';[m
+[32m+[m[32m                    lottoNumbersContainer.appendChild(separator);[m
+[32m+[m
+[32m+[m[32m                    const bonusBall = document.createElement('lotto-ball');[m
+[32m+[m[32m                    bonusBall.setAttribute('number', bonusNumber);[m
+[32m+[m[32m                    lottoNumbersContainer.appendChild(bonusBall);[m
+[32m+[m[32m                }, 100);[m
+[32m+[m[32m            }[m
+         }, index * 100);[m
+     });[m
+ });[m
+[1mdiff --git a/style.css b/style.css[m
+[1mindex 44e4847..928e287 100644[m
+[1m--- a/style.css[m
+[1m+++ b/style.css[m
+[36m@@ -42,10 +42,18 @@[m [mh1 {[m
+ .lotto-numbers {[m
+     display: flex;[m
+     justify-content: center;[m
+[32m+[m[32m    align-items: center;[m
+     margin-bottom: 30px;[m
+     padding: 20px 0;[m
+ }[m
+ [m
+[32m+[m[32m.bonus-separator {[m
+[32m+[m[32m    font-size: 32px;[m
+[32m+[m[32m    font-weight: bold;[m
+[32m+[m[32m    margin: 0 15px;[m
+[32m+[m[32m    color: var(--text-color);[m
+[32m+[m[32m}[m
+[32m+[m
+ #generate-btn {[m
+     background-color: #008CBA;[m
+     color: white;[m

@@ -67,18 +67,35 @@ document.getElementById('generate-btn').addEventListener('click', () => {
     const lottoNumbersContainer = document.getElementById('lotto-numbers');
     lottoNumbersContainer.innerHTML = '';
     const numbers = new Set();
-    while(numbers.size < 6) {
+    while(numbers.size < 7) {
         const randomNumber = Math.floor(Math.random() * 45) + 1;
         numbers.add(randomNumber);
     }
 
-    const sortedNumbers = Array.from(numbers).sort((a, b) => a - b);
+    const numbersArray = Array.from(numbers);
+    const bonusNumber = numbersArray.pop(); // Take the last one as bonus
+    const sortedNumbers = numbersArray.sort((a, b) => a - b);
 
+    // Render regular numbers
     sortedNumbers.forEach((number, index) => {
         setTimeout(() => {
             const lottoBall = document.createElement('lotto-ball');
             lottoBall.setAttribute('number', number);
             lottoNumbersContainer.appendChild(lottoBall);
+            
+            // If it's the last regular number, add the bonus ball after a delay
+            if (index === sortedNumbers.length - 1) {
+                setTimeout(() => {
+                    const separator = document.createElement('span');
+                    separator.className = 'bonus-separator';
+                    separator.textContent = '+';
+                    lottoNumbersContainer.appendChild(separator);
+
+                    const bonusBall = document.createElement('lotto-ball');
+                    bonusBall.setAttribute('number', bonusNumber);
+                    lottoNumbersContainer.appendChild(bonusBall);
+                }, 100);
+            }
         }, index * 100);
     });
 });

@@ -42,8 +42,16 @@ h1 {
 .lotto-numbers {
     display: flex;
     justify-content: center;
+    align-items: center;
     margin-bottom: 30px;
     padding: 20px 0;
+}
+
+.bonus-separator {
+    font-size: 32px;
+    font-weight: bold;
+    margin: 0 15px;
+    color: var(--text-color);
 }
 
 #generate-btn {
